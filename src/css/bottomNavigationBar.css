@@ -1,0 +1,47 @@
+.visible {
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(0);
+  }
+  
+  .hidden {
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(100%);
+    width:0%;
+  }
+
+  .navbarInferior {
+    display: flex;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    font-family: sans-serif;
+    position:fixed;
+    color: white;
+    bottom:0;
+    width:100%;
+    z-index: 100;
+    background-image: url('../images/templatemo-wave-header.jpg'), linear-gradient(#348CD2, #FFFFFF);;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.navbarInferior .barnav{
+  display: grid;
+  grid-template-columns: repeat(4,auto);
+  margin-right: 30px;
+  }
+.navbarInferior .barnav div{
+  padding: 10px 20px;
+  }
+.navbarInferior .barnav div:hover{
+  cursor: pointer;
+  }
+
+.logovi{
+
+  width: 40px;
+  height: 40px;
+  margin: 0;
+
+}
+

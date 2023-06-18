@@ -1,0 +1,25 @@
+.new-container {
+
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.news-item {
+
+  display:flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.news-image {
+
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.news-title {
+
+  font-weight: bold;
+}
