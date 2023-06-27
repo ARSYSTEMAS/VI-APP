@@ -1,32 +1,53 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useRef} from 'react';
 import {auth,provider} from "../firebaseConfig";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader,FormGroup, Input, Label,Col,FormText } from 'reactstrap';
+import ModalAddPost from './ModalAddPost';
+import Swal from 'sweetalert2';
+
 
 function BarraNavegacionComponent(){
 
-  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const [name, setName] = useState('');
-  const [abrir, setabrir] = useState(false);
+  const [post, setPost] = useState(null);
+
+ 
+
+  const [openClose, setOpenClose] = useState(false);
+  const handleOpenModal = () => setOpenClose(true);
+  const handleCloseModal = () => setOpenClose(false);
+
+  const postRef = useRef();
+
 
   const handleGoogleLogin=()=>{
   
     signInWithPopup(auth, provider).then((result)=>{
 
-      setUser(result.user);
+      setEmail(result.user.email);
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
      
       //Almacenando datos en Localstorage
-      localStorage.setItem("user-vi-app", JSON.stringify(result.user));
+      localStorage.setItem("user-vi-app", result.user.displayName);
       localStorage.setItem("e-vi-app", result.user.email);
       localStorage.setItem("ph-vi-app",result.user.photoURL);
       
       // Accede a la foto de perfil del usuario
       const photoURL = result.user.photoURL;
       setProfilePicture(photoURL);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Entrando a VI',
+        text: 'Sesión iniciada correctamente',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      
 
     }).catch((err)=>{
       console.log(err);
@@ -36,30 +57,26 @@ function BarraNavegacionComponent(){
 
 
     useEffect(()=>{
-
-    const user =JSON.parse(localStorage.getItem('user-vi-app'));  
-    const name =user?.displayName;
+    
+    const email =localStorage.getItem('e-vi-app');   
+    const name =localStorage.getItem('user-vi-app');
     const photoUrl = localStorage.getItem('ph-vi-app');
-    setUser(user); 
-        setName(name);
-        setProfilePicture(photoUrl);
-        
-            
+    setEmail(email); 
+    setName(name);
+    setProfilePicture(photoUrl);      
+
     }, [])
 
 
+  
     const Logout=()=>{
 
     localStorage.clear();
     window.location.reload();
-    }
-
-    const abrirModal= () =>{
-
-      setabrir(true); 
-
-  }
-
+    
+   }
+  
+  
     return(
      
         <nav className="navbar navbar-expand-lg">
@@ -98,10 +115,10 @@ function BarraNavegacionComponent(){
                         </li>
 
                     
-                      { user?
+                      { email?
                         <li className="nav-item">
 
-                        <a className="nav-link" href="#" onClick={abrirModal}>Postear</a>
+                        <a className="nav-link" href="#"  onClick={handleOpenModal}>Publicar</a>
                         
                         </li>
                    
@@ -110,7 +127,7 @@ function BarraNavegacionComponent(){
 
                         <div className="ms-4">
                         
-                            {user?(
+                            {email?(
                                 <>
                                 
                                 <div className="dropdown">
@@ -135,7 +152,7 @@ function BarraNavegacionComponent(){
                             aria-labelledby="navbarDropdownMenuAvatar"
                           >
                             <li>
-                              <a className="dropdown-item" href="#">{name}</a>
+                              <a className="dropdown-item" href="#">Mi Perfil</a>
                             </li>
 
                             <li>
@@ -159,67 +176,18 @@ function BarraNavegacionComponent(){
                     </ul>
                     
                 </div>
-               
-                <Modal isOpen= {abrir}>
-
-                <ModalHeader>
-                    Que estas pensando?
-                </ModalHeader>
-
-
-                <ModalBody>
-
-                    Este el cuerpo
-                </ModalBody>
-
-                <FormGroup>
-              
-                <Input
-                    id="txtPost"
-                    name="txtPost"
-                    type="textarea"
+                                   
+                <ModalAddPost 
+                openClose = {openClose}
+                onClose = {handleCloseModal}
+                userEmail = {email}
+                name = {name}
                 />
-              
-
-                </FormGroup>
-
-
-                <FormGroup row>
-                <Label
-                for="exampleFile"
-                sm={2}
-                >
-                File
-                </Label>
-              
-                <Input
-                    id="exampleFile"
-                    name="file"
-                    type="file"
-                />
-                <FormText>
-                    This is some placeholder block-level help text for the above input. It‘s a bit lighter and easily wraps to a new line.
-                </FormText>
-               
-                </FormGroup>
-
-
-                <ModalFooter>
-
-                      Este es el pie
-                    
-                </ModalFooter>
-
-
-
-                </Modal>
-
-            </div>
-        
+            </div>       
         </nav>
                  
     
-
+            
     );
 }
 

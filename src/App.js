@@ -2,10 +2,14 @@ import './App.css';
 import BarraNavegacionComponent from './components/BarraNavegacion';
 import { CarouselComponent } from './components/Carousel';
 import UltimasNoticiasComponent from './components/UltimasNoticias';
-import PublicacionesComponent from './components/Publicaciones';
+import PublicacionesIntroComponent from './components/PublicacionesIntro';
 import BottomNavigationBarComponent from './components/BottomNavigationBar';
 
+
 function App() {
+
+
+
   return (
     <div className="App">
      <BarraNavegacionComponent
@@ -14,10 +18,11 @@ function App() {
      />
      <UltimasNoticiasComponent
      />
-     <PublicacionesComponent
+     <PublicacionesIntroComponent
      />
       <BottomNavigationBarComponent
      />
+
     </div>
 
   );

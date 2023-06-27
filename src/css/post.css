@@ -1,0 +1,23 @@
+.seccion{
+
+    background-image: url('../images/templatemo-wave-header.jpg'), linear-gradient(#348CD2, #FFFFFF);;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    
+    
+}
+
+
+
+.imgresponsive div {
+  width:400;
+  height: 400px; /* ajusta la altura según tus necesidades */
+
+}
+
+.imgresponsive img {
+  max-width: 100%;
+  height: auto;
+ 
+}

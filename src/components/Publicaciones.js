@@ -21,25 +21,28 @@ function PublicacionesComponent(){
 
         getPublicaciones()
             
-        }, []);
+        });
 
 
     return(
 
       
-        <section className="latest-podcast-section section-padding pb-0" id="section_2">
-        
+        <section className="latest-podcast-section section-padding pb-5" id="section_2">
+            
+               {post ? (
+                        post.map((posts, i) => (
+
+            <div>
+
             <div className="container">
            
                 <div className="row justify-content-center">
 
+                  
+
                     <div className="col-lg-10 col-12">
                     
-                   {post ? (
-                        post.map((posts, i) => (
-
-
-                        <div className="row post">
+                        <div className="row post" key={i}>
                           
                           { posts.imagePost?
                             <div className="col-lg-3 col-12">
@@ -102,8 +105,12 @@ function PublicacionesComponent(){
                                 </div>
                             </div>
                         </div>
-
-                           ))
+                    </div>
+                </div>
+            </div>
+                  
+            </div>
+                      ))
                       ) : (
                                      
                         <div className="col-lg-9 col-12">
@@ -113,12 +120,7 @@ function PublicacionesComponent(){
                         </div>
                       
                       )}
-
-                    </div>
-
-                </div>
-            </div>
-                 
+            
         </section>
        
     );

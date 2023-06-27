@@ -12,7 +12,7 @@ function HeroSeccionComponent(){
                     <div className="text-center mb-5 pb-2">
                         <h1 className="text-white">VI APP</h1>
 
-                        <p className="text-white">Canal de noticias. Toda la información del acontecer en Valencia, Venezuela y el mundo.</p>
+                        <p className="text-white">Canal de noticias. Publica toda la información del acontecer en Valencia, Venezuela y el mundo.</p>
                     </div> 
                 </div>
             </div>

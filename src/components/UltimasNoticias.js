@@ -16,7 +16,7 @@ function UltimasNoticiasComponent({SlidesNum}){
          SlidesNum = 2
       ) : (
         
-         SlidesNum = 2
+         SlidesNum = 3
       )}
 
 
