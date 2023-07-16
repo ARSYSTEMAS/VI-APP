@@ -2,13 +2,11 @@ import React, {useState} from 'react'
 import '../css/post.css'
 import Spinner from './Spinner'
 
-
-const PostComponent = (props) =>{
+const PostComponent = ( {publicacion, getPublicaciones } ) =>{
 
   const [comentar, setComentar] = useState(false);
   const [comentarios, setComentarios] = useState(false);
-
-  const post = props.publicacion;
+  const post = publicacion;
 
   function handleClickComentar(){ 
     
@@ -22,18 +20,77 @@ const PostComponent = (props) =>{
 
   }
 
+  const meGusta = (id) => {
+
+    
+   
+  }
+
+ 
+
+const publicate = (fecha) => {
+
+  const fechaPost = new Date(fecha?.seconds * 1000 + fecha?.nanoseconds / 1000000);
+  const fechaActual = new Date();
+  const tiempoTranscurrido = fechaActual - fechaPost;
+  
+  const minutosTranscurridos = Math.floor(tiempoTranscurrido / (1000 * 60));
+  const horasTranscurridas = Math.floor(tiempoTranscurrido / (1000 * 60 * 60));
+  const diasTranscurridos = Math.floor(tiempoTranscurrido / (1000 * 60 * 60 * 24));
+
+  let publicado='';
+
+  
+  if (diasTranscurridos <= 0){ //menos de 1 dia
+
+      if(minutosTranscurridos <= 60){ //dentro de una hora
+       
+            if(minutosTranscurridos <= 0){
+
+                publicado += `Hace segundos`;
+                
+            }else{
+
+                publicado += `Hace ${minutosTranscurridos} min`;
+            }
+
+      }else{ // mas de 1 hora
+
+            publicado += `Hace ${horasTranscurridas} hora`;
+
+      }
+  
+  }else if (diasTranscurridos >= 1){ //mas de 1 dia
+
+        if(diasTranscurridos === 1){
+
+               publicado += `Ayer`;
+
+        }else{
+
+
+              publicado += `Hace ${diasTranscurridos} dias`;
+
+        }
+
+  }
+        
+  return publicado;
+}
+  
+
     return(
 
 
 <section style={{backgroundColor: "#eee"}}>
 
-{!post ? <Spinner /> : ''}
+{ post?.length > 0 ? (
 
-{post ? (
 post.map((posts, i) => (
+ 
 
 <div className="container my-1 py-1" key={i}>
-  
+{ !post  && <Spinner /> }
   <div className="row justify-content-center">
 
   <div className="card" style={{ maxWidth: "42rem"}} >
@@ -47,10 +104,10 @@ post.map((posts, i) => (
         </a>
         <div>
           <a href="" className="text-dark mb-0">
-            <strong> {posts.userNamePost}</strong>
+            <strong> {posts.userNamePost}</strong> 
           </a>
           <a href="" className="text-muted d-block" style={{marginTop: "-6px"}}>
-            <small>10h</small>
+            <small>{publicate(posts.fechaPost)}</small>
           </a>
         </div>
       </div>
@@ -81,20 +138,20 @@ post.map((posts, i) => (
       <div className="d-flex justify-content-between mb-3">
         <div>
           <a href="">
-            <i className="fas fa-thumbs-up text-primary"></i>
-            <i className="fas fa-heart text-danger"></i>
-            <span>124</span>
+          <i className="bi bi-hand-thumbs-up"></i>
+          <i className="bi bi-heart "></i>
+            <span className='m-1'>{posts.meGusta}</span>
           </a>
         </div>
         <div>
-          <a  style={{cursor:"pointer"}} className="text-muted" onClick={handleClickComentarios}> 8 comentarios </a>
+          <a  style={{cursor:"pointer"}} className="text-muted" onClick={handleClickComentarios}> {posts.nroComentarios} comentarios </a>
         </div>
       </div>
       
 
       
       <div className="d-flex justify-content-between text-center border-top border-bottom mb-4">
-        <p style={{cursor:"pointer"}}> <i className="bi bi-hand-thumbs-up"></i> Me Gusta </p>
+        <p style={{cursor:"pointer"}} onClick= {meGusta(post.id)}> <i className="bi bi-hand-thumbs-up"></i> Me Gusta </p>
         <p  onClick={handleClickComentar} style={{cursor:"pointer"}}> <i className="bi bi-chat-square"></i> Comentar</p>
         <p style={{cursor:"pointer"}}><i className="bi bi-share"></i> Compartir </p>
       </div>
@@ -144,10 +201,16 @@ post.map((posts, i) => (
  
     ))
     ) : (
-                          
-  <p style={{ backgroundColor: "blue", color: "white", textAlign:"center"}}>Esperando Publicaciones...</p>    
-    
-    
+
+
+      <div className="alert alert-success" role="alert">
+      <h4 className="alert-heading">¡Lo sentimos!</h4>
+      <p>Oh, en estos momentos no hay publicaciones</p>
+      <hr/>
+      <p className="mb-0">Animate, y se el primero en publicar!</p>
+    </div>
+
+
     )}
         
 </section>

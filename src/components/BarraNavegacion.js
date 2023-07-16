@@ -5,13 +5,13 @@ import ModalAddPost from './ModalAddPost';
 import Swal from 'sweetalert2';
 
 
-function BarraNavegacionComponent(){
+function BarraNavegacionComponent( {setIsAddPost} ){
 
   const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const [name, setName] = useState('');
   const [post, setPost] = useState(null);
-
+  
  
 
   const [openClose, setOpenClose] = useState(false);
@@ -182,6 +182,8 @@ function BarraNavegacionComponent(){
                 onClose = {handleCloseModal}
                 userEmail = {email}
                 name = {name}
+                profilePicture = {profilePicture} 
+                setIsAddPost = {setIsAddPost}               
                 />
             </div>       
         </nav>

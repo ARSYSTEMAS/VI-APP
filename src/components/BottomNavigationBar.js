@@ -3,7 +3,7 @@ import '../css/bottomNavigationBar2.css'
 import ModalAddPost from './ModalAddPost';
 import Swal from 'sweetalert2'
 
-function BottomNavigationBar() {
+function BottomNavigationBar( {setIsAddPost} ) {
 
   const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
@@ -11,41 +11,32 @@ function BottomNavigationBar() {
 
   const [openClose, setOpenClose] = useState(false);
 
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
+   const [isHidden, setIsHidden] = useState(false);
+   const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+
+  useEffect(()=>{
+
+   const name =localStorage.getItem('user-vi-app');
+    const email =localStorage.getItem('e-vi-app');
+    const photoUrl = localStorage.getItem('ph-vi-app');
+
+    setName(name);
+    setEmail(email); 
+    setProfilePicture(photoUrl);
+
+   const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const isVisible = prevScrollPos < currentScrollPos;
+
+      setIsHidden(isVisible);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+   window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
 
   
-  
-
-  
-
-  const handleScroll = () => {
-    const currentScrollPos = window.pageYOffset;
-    setVisible(
-      (prevScrollPos > currentScrollPos &&
-        prevScrollPos - currentScrollPos > 70) ||
-        currentScrollPos < 10
-    );
-
-    setPrevScrollPos(currentScrollPos);
-  };
-
-
-    useEffect(()=>{
-
-      const name =localStorage.getItem('user-vi-app');
-      const email =localStorage.getItem('e-vi-app');
-      const photoUrl = localStorage.getItem('ph-vi-app');
-
-      setName(name);
-      setEmail(email); 
-      setProfilePicture(photoUrl);
-    
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-
-  }, [prevScrollPos, visible, handleScroll]);
-
   const errorLogon = () => {
 
     return Swal.fire({
@@ -55,12 +46,14 @@ function BottomNavigationBar() {
       showConfirmButton: true,
     });
   }
+
+  
   const handleOpenModal = () => email ? setOpenClose(true) : errorLogon();
   const handleCloseModal = () => setOpenClose(false);
 
   return (
     <div>
-    <nav className={`navbarInferior ${visible ? "visible" : "hidden"}`}>
+    <nav className="navbarInferior" style={{ transition: 'visibility 0.5s linear', visibility: isHidden ? 'hidden' : 'visible' }}>
    
           <div className="house"><i className="bi bi-house-door" onClick={()=>{window.scrollTo({
             top:0,
@@ -87,6 +80,7 @@ function BottomNavigationBar() {
         userEmail = {email}
         name = {name}
         profilePicture = {profilePicture}
+        setIsAddPost = {setIsAddPost}
         />
     </div>
     </div>

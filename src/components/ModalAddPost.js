@@ -9,10 +9,9 @@ import { getStorage, ref, uploadBytesResumable,  getDownloadURL } from "firebase
 import Spinner from './Spinner'
 
 
-const ModalAddPost = ( { openClose, onClose , userEmail , name, profilePicture}) => {
+const ModalAddPost = ( { openClose, onClose , userEmail , name, profilePicture, setIsAddPost}) => {
     
     const [post, setPost] = useState(null);
-    const postRef = useRef();
     const [childValueFile, setchildValueFile ] = useState([]);
     const [progres, setProgres] = useState(0);
     const [textprogress, setTextProgress] = useState('');
@@ -32,7 +31,7 @@ const ModalAddPost = ( { openClose, onClose , userEmail , name, profilePicture})
         if (!post) {
 
           setIsClickPostear(false);
-          postRef.current.focus();
+         
 
           return Swal.fire({
             icon: 'error',
@@ -104,8 +103,11 @@ const ModalAddPost = ( { openClose, onClose , userEmail , name, profilePicture})
                 showConfirmButton: false,
                 timer: 1500,
               });
-
+              
+              setIsAddPost(true);
               onClose();
+              setchildValueFile([]);
+
           
           });
         }
@@ -135,7 +137,9 @@ const ModalAddPost = ( { openClose, onClose , userEmail , name, profilePicture})
 
             setIsClickPostear(false);
             setProgres(0);
+            setIsAddPost(true);
             onClose();
+
       }
 
       }
@@ -159,7 +163,6 @@ const ModalAddPost = ( { openClose, onClose , userEmail , name, profilePicture})
                       name="txtPost"
                       type="textarea"
                       rows="5"
-                      ref={postRef}
                       placeholder="Escribe aqui!"
                       onChange={e => setPost(e.target.value)}
                   />

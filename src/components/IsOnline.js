@@ -1,14 +1,14 @@
 import React, { useState, useEffect} from 'react'
 import Swal from 'sweetalert2';
 
-export function isOnlineApp(){
+export const IsOnlineApp = () => {
 
 
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
     const handleOnlineStatus = () => { setIsOnline(navigator.onLine); }
   
-
+    
 
     useEffect(() => {
 
@@ -24,7 +24,7 @@ export function isOnlineApp(){
 
     }, []);
 
-
+    
     if (!isOnline){
 
             return Swal.fire(
@@ -33,5 +33,5 @@ export function isOnlineApp(){
                 'Reintentar'
             );        
     }
-     
+    
 }
